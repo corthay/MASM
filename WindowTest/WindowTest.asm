@@ -17,13 +17,10 @@ includelib	kernel32.lib
 					.data?
 hInstance			dd		?
 hWinMain			dd		?
-szBuffer			db		256 dup (?)
 					.const
 szClassName			db		'MyClass',0
-szCaption			db		'My first Window',0
+szCaptionMain		db		'My first Window',0
 szText				db		'Yeah',0
-szCaptionRece		db		'ÌבÊ¾',0
-szReceive			db		'%s',0dh,0ah
 ;>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			.code
 _Proc		proc		uses ebx edi esi hWnd,uMsg,wParam,lParam
@@ -34,9 +31,8 @@ _Proc		proc		uses ebx edi esi hWnd,uMsg,wParam,lParam
 						invoke	DestroyWindow,hWinMain
 						invoke	PostQuitMessage,NULL
 			;Click close button to close window directly
-			.elseif		eax==WM_SETTEXT
-						invoke	wsprintf,addr szBuffer,addr szReceive,lParam
-						invoke	MessageBox,hWnd,offset szBuffer,addr szCaptionRece,MB_OK
+
+						
 			.else
 						invoke	DefWindowProc,hWnd,uMsg,wParam,lParam
 						ret
@@ -69,7 +65,7 @@ _WinMain	proc
 			;Register a window class
 			invoke		CreateWindowEx,WS_EX_CLIENTEDGE,\
 						offset szClassName,\
-						offset szCaption,\
+						offset szCaptionMain,\
 						WS_OVERLAPPEDWINDOW,\
 						100,100,600,400,\
 						NULL,NULL,\
